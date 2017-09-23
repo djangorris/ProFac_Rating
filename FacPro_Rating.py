@@ -1,6 +1,6 @@
 import pandas as pd
 
-file = 'RMHP--b76994c2-2748-4ba1-b385-a5cb1126f623_DATA_ECP_NETWORK_ADEQUACY.xlsm'
+file = 'Anthem--8bfa9e3b-d95b-40ca-8228-6965e21b2284_DATA_ECP_NETWORK_ADEQUACY.xlsm'
 # Parse all providers
 providers = pd.read_excel('networks/' + file,
 	            sheetname='IndividualProviders1',
@@ -19,4 +19,4 @@ unique_providers = providers.NPI.nunique()
 unique_facilities = facilities.NPI.nunique()
 # Sum unique providers and unique facilities/pharmacies to get overall "FacPro Rating"
 FacPro_Rating = unique_providers + unique_facilities
-print(FacPro_Rating)
+print(str(FacPro_Rating) + ' total unique providers + facilities.')
