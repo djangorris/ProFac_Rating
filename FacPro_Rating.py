@@ -1,6 +1,6 @@
 import pandas as pd
 
-file = 'Anthem--8bfa9e3b-d95b-40ca-8228-6965e21b2284_DATA_ECP_NETWORK_ADEQUACY.xlsm'
+file = 'Anthem.xlsm'
 # Parse all providers
 providers = pd.read_excel('networks/' + file,
 	            sheetname='IndividualProviders1',

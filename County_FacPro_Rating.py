@@ -1,7 +1,39 @@
+import glob
 import pandas as pd
-#
-file = 'Anthem--8bfa9e3b-d95b-40ca-8228-6965e21b2284_DATA_ECP_NETWORK_ADEQUACY.xlsm'
-counties = 'Denver'
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+import matplotlib.patches as mpatches
+from matplotlib import style
+import numpy as np
+import os
+import re
+
+```
+The SERFF .xlsm files should be downloaded into a directory within
+the current working directory named "networks". And the file
+name should be Carrier_Name.xlsm -- Using underscores for spaces.
+```
+
+# Create dictionary {'Carrier Name': 'networks/Carrier_Name.xlsm', 'Etc':'networks/Etc.xlsm'}
+carrier_dict = {}
+for file in glob.glob('networks/*.xlsm'):
+	carrier_name = file.replace('.xlsm','')
+	carrier_name = carrier_name.replace('networks/','')
+	carrier_name = carrier_name.replace('_',' ')
+	carrier_dict.update({carrier_name: file})
+print(carrier_dict)
+
+# Carriers to compare
+data = np.array([['Carrier Label', 'Filename', 'Size'],
+                ['Anthem BCBS','Anthem.csv',anthem_],
+                ['Bright',7507],
+                ['Cigna',13550],
+                ['Kaiser',13391],
+                ['CO Choice',5711],
+                ['Denver Health',858],
+                ['RMHP',11672]])
+# County to compare
+county = 'Denver'
 # Parse all providers
 providers = pd.read_excel('networks/' + file,
 	            sheetname='IndividualProviders1',
@@ -17,15 +49,9 @@ facilities = pd.read_excel('networks/' + file,
 	            )
 facilities.columns = ['NPI','County']
 # Filter providers by county(ies)
-providers = providers[providers.County == counties]
-# printing for sanity check
-print(providers.head(10))
-print(providers.info())
+providers = providers[providers.County == county]
 # Filter facilities by county(ies)
-facilities = facilities[facilities.County == counties]
-# printing for sanity check
-print(facilities.head(10))
-print(facilities.info())
+facilities = facilities[facilities.County == county]
 # Count unique providers
 unique_providers = providers.NPI.nunique()
 # printing for sanity check
