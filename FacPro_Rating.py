@@ -35,29 +35,46 @@ for file in glob.glob('networks/*.xlsm'):
 	facilities.columns = ['NPI','County']
 	# Count unique providers
 	unique_providers = providers.NPI.nunique()
-	# printing for sanity check
-	print(carrier_name + ' has ' + str(unique_providers) + ' unique providers in Colorado')
 	# Count unique facilities and pharmacies
 	unique_facilities = facilities.NPI.nunique()
+	if file == 'networks/Cigna.xlsm':
+		providers2 = pd.read_excel(file,
+	            sheetname='IndividualProviders2',
+	            header=1,
+	            parse_cols = [0,12],
+	            )
+		facilities2 = pd.read_excel(file,
+		            sheetname='Facilities&Pharmacies2',
+		            header=1,
+		            parse_cols = [0,7],
+		            )
+		providers2.columns = ['NPI','County']
+		facilities2.columns = ['NPI','County']
+		# Count unique providers
+		unique_providers2 = providers2.NPI.nunique()
+		# Count unique facilities and pharmacies
+		unique_facilities2 = facilities2.NPI.nunique()
+		# Sum unique1 and unique2
+		unique_providers = unique_providers + unique_providers2
+		unique_facilities = unique_facilities + unique_facilities2
+	# printing for sanity check
+	print(carrier_name + ' has ' + str(unique_providers) + ' unique providers in Colorado')	
 	# printing for sanity check
 	print(carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in Colorado')
 	# Sum unique providers and unique facilities/pharmacies to get overall "ProFac Rating"
 	ProFac_Rating = unique_providers + unique_facilities
 	# printing for sanity check
 	print(carrier_name + ' has ' + str(ProFac_Rating) + 
-			' total unique providers + facilities in Colorado\n')
+			' total unique providers + facilities in Colorado\n~    ~    ~    ~    ~    ~    ~')
 	## Update dict ##
 	plot_dict[carrier_name] = [ProFac_Rating]
 ## Make Dataframe ##
 df = pd.DataFrame(plot_dict).T
 print('Colorado Totals By Carrier')
 print(df)
-########
 # PLOT #
-########
 style.use('fivethirtyeight')
 col = ['darkblue','r','g','c','royalblue','m','goldenrod']
-#
 df.plot(kind='bar', color=col, legend=None)
 plt.ylabel('Unique Providers and\nFacilities/Pharmacies')
 plt.title('Colorado 2017 Network Size Measured In Unique\n"IndividualProviders" and "Facilities&Pharmacies" Based on SERFF Data')
