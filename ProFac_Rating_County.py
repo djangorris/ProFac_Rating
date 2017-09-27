@@ -15,16 +15,16 @@ name should be Carrier_Name.xlsm -- Using underscores for spaces.
 '''
 Full alphabetical list of counties to compare. The script will loop over all
 counties included in the list and create a bar plot for each county.
-[Adams,Alamosa,Arapahoe,Archuleta,Baca,Bent,Boulder,Broomfield,Chaffee,
-Cheyenne,Clear Creek,Conejos,Costilla,Crowley,Custer,Delta,Denver,Dolores,
-Douglas,Eagle,Elbert,El Paso,Fremont,Garfield,Gilpin,Grand,Gunnison,
-Hinsdale,Huerfano,Jackson,Jefferson,Kiowa,Kit Carson,Lake,La Plata,Larimer,
-Las Animas,Lincoln,Logan,Mesa,Mineral,Moffat,Montezuma,Montrose,Morgan,
-Otero,Ouray,Park,Phillips,Pitkin,Prowers,Pueblo,Rio Blanco,Rio Grande,
-Routt,Saguache,San Juan,San Miguel,Sedgwick,Summit,Teller,Washington,
-Weld,Yuma]
+['Adams','Alamosa','Arapahoe','Archuleta','Baca','Bent','Boulder','Broomfield','Chaffee',
+'Cheyenne','Clear Creek','Conejos','Costilla','Crowley','Custer','Delta','Denver','Dolores',
+'Douglas','Eagle','Elbert','El Paso','Fremont','Garfield','Gilpin','Grand','Gunnison',
+'Hinsdale','Huerfano','Jackson','Jefferson','Kiowa','Kit Carson','Lake','La Plata','Larimer',
+'Las Animas','Lincoln','Logan','Mesa','Mineral','Moffat','Montezuma','Montrose','Morgan',
+'Otero','Ouray','Park','Phillips','Pitkin','Prowers','Pueblo','Rio Blanco','Rio Grande',
+'Routt','Saguache','San Juan','San Miguel','Sedgwick','Summit','Teller','Washington',
+'Weld','Yuma']
 '''
-counties = ['Douglas']
+counties = ['Alamosa','Arapahoe']
 ### loop counties ###
 for county in counties:
 	# empty dict to fill with Carrier Name and Rating later
@@ -54,27 +54,48 @@ for county in counties:
 		facilities = facilities[facilities.County == county]
 		# Count unique providers
 		unique_providers = providers.NPI.nunique()
-		# printing for sanity check
-		print(carrier_name + ' has ' + str(unique_providers) + ' unique providers in ' + county + ' County.')
 		# Count unique facilities and pharmacies
 		unique_facilities = facilities.NPI.nunique()
+		if file == 'networks/Cigna.xlsm':
+			providers2 = pd.read_excel(file,
+		            sheetname='IndividualProviders2',
+		            header=1,
+		            parse_cols = [0,12],
+		            )
+			facilities2 = pd.read_excel(file,
+			            sheetname='Facilities&Pharmacies2',
+			            header=1,
+			            parse_cols = [0,7],
+			            )
+			providers2.columns = ['NPI','County']
+			facilities2.columns = ['NPI','County']
+			# Filter providers by county(ies)
+			providers2 = providers2[providers2.County == county]
+			# Filter facilities by county(ies)
+			facilities2 = facilities2[facilities2.County == county]
+			# Count unique providers
+			unique_providers2 = providers2.NPI.nunique()
+			# Count unique facilities and pharmacies
+			unique_facilities2 = facilities2.NPI.nunique()
+			# Sum unique1 and unique2
+			unique_providers = unique_providers + unique_providers2
+			unique_facilities = unique_facilities + unique_facilities2
+		# printing for sanity check
+		print(carrier_name + ' has ' + str(unique_providers) + ' unique providers in ' + county + ' County.')
 		# printing for sanity check
 		print(carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in ' + county + ' County.')
 		# Sum unique providers and unique facilities/pharmacies to get overall "ProFac Rating"
 		County_ProFac_Rating = unique_providers + unique_facilities
 		# printing for sanity check
 		print(carrier_name + ' has ' + str(County_ProFac_Rating) + 
-				' **total** unique providers + facilities in ' + county + ' County.')
+				' total unique providers + facilities in ' + county + ' County.\n~    ~    ~    ~    ~    ~    ~')
 		## Update dict ##
 		plot_dict[carrier_name] = [County_ProFac_Rating]
-		# plot_dict.update({'Carrier': [carrier_name], 'Size': [County_ProFac_Rating]})
 	## Make Dataframe ##
 	df = pd.DataFrame(plot_dict).T
-	print('Totals By Carrier for ' + county)
+	print('Totals By Carrier for ' + county + ' County')
 	print(df)
-	########
 	# PLOT #
-	########
 	style.use('fivethirtyeight')
 	col = ['darkblue','r','g','c','royalblue','m','goldenrod']
 	#
