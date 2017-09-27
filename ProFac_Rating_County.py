@@ -80,15 +80,16 @@ for county in counties:
 			# Sum unique1 and unique2
 			unique_providers = unique_providers + unique_providers2
 			unique_facilities = unique_facilities + unique_facilities2
-		# printing for sanity check
-		print(carrier_name + ' has ' + str(unique_providers) + ' unique providers in ' + county + ' County.')
-		# printing for sanity check
-		print(carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in ' + county + ' County.')
+		# printing html for posting to blog
+		print('<h5>Per Carrier Breakdown</h5>')
+		print('<ul><li>' + carrier_name + ' has ' + str(unique_providers) + ' unique providers in ' + county + ' County.</li>')
+		# printing html for blog post
+		print('<li>' + carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in ' + county + ' County.</li>')
 		# Sum unique providers and unique facilities/pharmacies to get overall "ProFac Rating"
 		County_ProFac_Rating = unique_providers + unique_facilities
-		# printing for sanity check
-		print(carrier_name + ' has ' + str(County_ProFac_Rating) + 
-				' total unique providers + facilities in ' + county + ' County.\n~    ~    ~    ~    ~    ~    ~')
+		# printing html for blog post
+		print('<li>' + carrier_name + ' has ' + str(County_ProFac_Rating) + 
+				' total unique providers + facilities in ' + county + ' County.</li></ul>')
 		## Update dict ##
 		plot_dict[carrier_name] = [County_ProFac_Rating]
 	## Make Dataframe ##

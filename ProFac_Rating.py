@@ -57,15 +57,15 @@ for file in glob.glob('networks/*.xlsm'):
 		# Sum unique1 and unique2
 		unique_providers = unique_providers + unique_providers2
 		unique_facilities = unique_facilities + unique_facilities2
-	# printing for sanity check
-	print(carrier_name + ' has ' + str(unique_providers) + ' unique providers in Colorado')	
-	# printing for sanity check
-	print(carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in Colorado')
+	# printing html for blog post
+	print('<ul><li>' + carrier_name + ' has ' + str(unique_providers) + ' unique providers in Colorado</li>')	
+	# printing html for blog post
+	print('<li>' + carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in Colorado</li>')
 	# Sum unique providers and unique facilities/pharmacies to get overall "ProFac Rating"
 	ProFac_Rating = unique_providers + unique_facilities
-	# printing for sanity check
-	print(carrier_name + ' has ' + str(ProFac_Rating) + 
-			' total unique providers + facilities in Colorado\n~    ~    ~    ~    ~    ~    ~')
+	# printing html for blog post
+	print('<li>' + carrier_name + ' has ' + str(ProFac_Rating) + 
+			' total unique providers + facilities in Colorado</li></ul>')
 	## Update dict ##
 	plot_dict[carrier_name] = [ProFac_Rating]
 ## Make Dataframe ##
