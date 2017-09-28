@@ -24,11 +24,16 @@ counties included in the list and create a bar plot for each county.
 'Routt','Saguache','San Juan','San Miguel','Sedgwick','Summit','Teller','Washington',
 'Weld','Yuma']
 '''
-counties = ['Alamosa','Arapahoe']
+counties = ['Alamosa']
 ### loop counties ###
 for county in counties:
 	# empty dict to fill with Carrier Name and Rating later
 	plot_dict = {}
+	# printing html for posting to Colorado Health Insurance Insider
+	# breadcrumb
+	print('<a href="/">Home</a> &gt;&gt; <a href="/network-size-rating-serff/">Statewide Network Size and links to all Colorado Counties</a> &gt;&gt; ' + county + ' County')
+	print(county + ' County Colorado Individual Market Network Size Rating Based on SERFF Data') #Blog Title
+	print('<h4>Per Carrier Breakdown</h4>')
 	# loop files in /networks
 	for file in glob.glob('networks/*.xlsm'):
 		ext_removed = file.replace('.xlsm','')
@@ -80,14 +85,11 @@ for county in counties:
 			# Sum unique1 and unique2
 			unique_providers = unique_providers + unique_providers2
 			unique_facilities = unique_facilities + unique_facilities2
-		# printing html for posting to blog
-		print('<h5>Per Carrier Breakdown</h5>')
-		print('<ul><li>' + carrier_name + ' has ' + str(unique_providers) + ' unique providers in ' + county + ' County.</li>')
-		# printing html for blog post
-		print('<li>' + carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in ' + county + ' County.</li>')
 		# Sum unique providers and unique facilities/pharmacies to get overall "ProFac Rating"
 		County_ProFac_Rating = unique_providers + unique_facilities
-		# printing html for blog post
+		print('<h5>' + carrier_name + '</h5>')
+		print('<ul><li>' + carrier_name + ' has ' + str(unique_providers) + ' unique providers in ' + county + ' County.</li>')
+		print('<li>' + carrier_name + ' has ' + str(unique_facilities) + ' unique facilities in ' + county + ' County.</li>')
 		print('<li>' + carrier_name + ' has ' + str(County_ProFac_Rating) + 
 				' total unique providers + facilities in ' + county + ' County.</li></ul>')
 		## Update dict ##
@@ -104,4 +106,5 @@ for county in counties:
 	plt.ylabel('Unique Providers and\nFacilities/Pharmacies')
 	plt.title(county + ' County 2017 Network Size Measured In Unique\n"IndividualProviders" and "Facilities&Pharmacies" Based on SERFF Data')
 	plt.grid(True)
+	plt.subplots_adjust(left=0.09, bottom=0.19, right=0.95, top=0.88)
 	plt.show()
