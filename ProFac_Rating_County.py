@@ -24,14 +24,12 @@ counties included in the list and create a bar plot for each county.
 'Routt','Saguache','San Juan','San Miguel','Sedgwick','Summit','Teller','Washington',
 'Weld','Yuma']
 '''
-counties = ['Alamosa']
+counties = ['Boulder','Broomfield']
 ### loop counties ###
 for county in counties:
 	# empty dict to fill with Carrier Name and Rating later
 	plot_dict = {}
 	# printing html for posting to Colorado Health Insurance Insider
-	# breadcrumb
-	print('<a href="/">Home</a> &gt;&gt; <a href="/network-size-rating-serff/">Statewide Network Size and links to all Colorado Counties</a> &gt;&gt; ' + county + ' County')
 	print(county + ' County Colorado Individual Market Network Size Rating Based on SERFF Data') #Blog Title
 	print('<h4>Per Carrier Breakdown</h4>')
 	# loop files in /networks
