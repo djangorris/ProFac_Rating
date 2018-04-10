@@ -37,7 +37,7 @@ for file in glob.glob('networks/*.xlsm'):
 	unique_providers = providers.NPI.nunique()
 	# Count unique facilities and pharmacies
 	unique_facilities = facilities.NPI.nunique()
-	if file == 'networks/Cigna.xlsm':
+	if (file == 'networks/Cigna.xlsm') or (file == 'networks/Anthem_Sm_Group.xlsm'):
 		providers2 = pd.read_excel(file,
 	            sheetname='IndividualProviders2',
 	            header=1,
@@ -74,7 +74,7 @@ print('Colorado Totals By Carrier')
 print(df)
 # PLOT #
 style.use('fivethirtyeight')
-col = ['darkblue','r','g','c','royalblue','m','goldenrod']
+col = ['darkblue','darkblue','r','g','c','royalblue','m','m','goldenrod','darkslategray']
 df.plot(kind='bar', color=col, legend=None)
 plt.ylabel('Unique Providers and\nFacilities/Pharmacies')
 plt.title('Colorado 2017 Network Size Measured In Unique\n"IndividualProviders" and "Facilities&Pharmacies" Based on SERFF Data')

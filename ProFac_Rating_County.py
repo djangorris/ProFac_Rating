@@ -16,12 +16,9 @@ name should be Carrier_Name.xlsm -- Using underscores for spaces.
 '''
 Full alphabetical list of counties to compare. The script will loop over all
 counties included in the list and create a bar plot for each county.
-['Las Animas','Lincoln','Logan','Mesa','Mineral','Moffat','Montezuma','Montrose','Morgan',
-'Otero','Ouray','Park','Phillips','Pitkin','Prowers','Pueblo','Rio Blanco','Rio Grande',
-'Routt','Saguache','San Juan','San Miguel','Sedgwick','Summit','Teller','Washington',
-'Weld','Yuma']
+['Sedgwick','Summit','Teller','Washington','Weld','Yuma']
 '''
-counties = ['Las Animas','Lincoln','Logan','Mesa','Mineral','Moffat','Montezuma','Montrose','Morgan']
+counties = ['Sedgwick','Summit','Teller','Washington','Weld','Yuma']
 ### loop counties ###
 for county in counties:
 	# empty dict to fill with Carrier Name and Rating later
@@ -56,7 +53,7 @@ for county in counties:
 		unique_providers = providers.NPI.nunique()
 		# Count unique facilities and pharmacies
 		unique_facilities = facilities.NPI.nunique()
-		if file == 'networks/Cigna.xlsm':
+		if (file == 'networks/Cigna.xlsm') or (file == 'networks/Anthem_Sm_Group.xlsm'):
 			providers2 = pd.read_excel(file,
 		            sheetname='IndividualProviders2',
 		            header=1,
